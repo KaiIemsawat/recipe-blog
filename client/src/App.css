@@ -4,6 +4,11 @@
     box-sizing: border-box;
     /* make padding included in 100% (or whatever % for parent element) */
 }
+
+a {
+    cursor: pointer;
+}
+
 body {
     /* font-family: "DM Sans", sans-serif; */
     /* font-family: "Inter", sans-serif; */
@@ -95,17 +100,18 @@ input {
     margin-bottom: 5px;
     width: 100%;
     padding: 5px 10px;
-    border: 1px solid #03a409;
+    border: none;
     background-color: #f4f4ec;
     border-radius: 5px;
 }
 
 button {
+    cursor: pointer;
     width: 100%;
     display: block;
     padding: 7px;
-    background-color: #03a409;
-    color: #f4f4ec;
+    background-color: #eff0dc;
+    color: #03a409;
     border: 0;
     border-radius: 5px;
 }
@@ -172,13 +178,14 @@ div.edit-row {
 
 div.post-page a.edit-btn {
     background-color: #eff0dc;
-    color: #7d7d7d;
+    color: #03a409;
     padding: 5px 15px;
     display: inline-flex;
     align-items: center;
     gap: 5px;
     text-decoration: none;
     border-radius: 5px;
+    /* border: #9f9f8c 1px solid; */
 }
 
 a svg {

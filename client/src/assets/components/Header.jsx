@@ -28,7 +28,7 @@ const Header = () => {
     return (
         <header>
             <Link to="/" className="logo">
-                My Blog
+                RecipeRoom
             </Link>
             <nav>
                 {email ? (

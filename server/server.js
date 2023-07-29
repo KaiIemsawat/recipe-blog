@@ -122,6 +122,39 @@ app.post("/api/create-post", uploadMidWare.single("file"), async (req, res) => {
     });
 });
 
+// ! UPDATE POST
+app.put("/api/post", uploadMidWare.single("file"), async (req, res) => {
+    let newPath = null;
+    if (req.file) {
+        const { originalname, path } = req.file;
+        const fileParts = originalname.split(".");
+        const extension = fileParts[fileParts.length - 1];
+        newPath = `${path}.${extension}`;
+        fs.renameSync(path, newPath);
+    }
+
+    const { token } = req.cookies;
+    jwt.verify(token, jwtSecret, {}, async (err, info) => {
+        if (err) throw err;
+        const { id, title, summary, content } = req.body;
+        const postDoc = await PostModel.findById(id);
+        // const isAuthor = postDoc.author === info.id; // < this will not be equal due to that author type is objectId
+        const isAuthor =
+            JSON.stringify(postDoc.author) === JSON.stringify(info.id); // < with this, the result will be true
+        if (!isAuthor) {
+            return res.status(400).json("Not the author");
+        } else {
+            await postDoc.updateOne({
+                title,
+                summary,
+                content,
+                cover: newPath ? newPath : postDoc.cover,
+            });
+            res.json(postDoc);
+        }
+    });
+});
+
 // ! GET ALL POSTs
 app.get("/api/posts", async (req, res) => {
     // .populate("author", ["username"]) .populate("author") to have author in json
