@@ -32,6 +32,8 @@ const CreatePostPage = () => {
             );
             if (response.ok) {
                 nav("/");
+            } else {
+                alert("please ensure if it is an image type file");
             }
         } else {
             if (!title) {

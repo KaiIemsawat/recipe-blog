@@ -100,32 +100,36 @@ app.post("/api/logout", (req, res) => {
 // ! CREATE NEW POST
 // ! <--- "file" in next line needs to be samne as in CreatePostPage.jsx --->  data.set("file", files[0]);
 app.post("/api/create-post", uploadMidWare.single("file"), async (req, res) => {
+    // console.log(req.file);
     const { originalname, path } = req.file;
     const fileParts = originalname.split(".");
     const extension = fileParts[fileParts.length - 1];
     const newPath = `${path}.${extension}`;
     fs.renameSync(path, newPath);
 
-    // get author data from userModel
-    const { token } = req.cookies;
-    jwt.verify(token, jwtSecret, {}, async (err, info) => {
-        if (err) throw err;
-        try {
-            const { title, summary, content } = req.body;
-            const postDoc = await PostModel.create({
-                title,
-                summary,
-                content,
-                cover: newPath,
-                author: info.id,
-            });
+    if (req.file.mimetype.split("/")[0] === "image") {
+        // get author data from userModel
+        const { token } = req.cookies;
+        jwt.verify(token, jwtSecret, {}, async (err, info) => {
+            if (err) throw err;
+            try {
+                const { title, summary, content } = req.body;
+                const postDoc = await PostModel.create({
+                    title,
+                    summary,
+                    content,
+                    cover: newPath,
+                    author: info.id,
+                });
 
-            res.json(postDoc);
-        } catch (error) {
-            console.log(error);
-            res.status(400).json(error);
-        }
-    });
+                res.json(postDoc);
+            } catch (error) {
+                res.status(400).json(error);
+            }
+        });
+    } else {
+        res.status(400).json({ message: "File type not compatible" });
+    }
 });
 
 // ! UPDATE POST
