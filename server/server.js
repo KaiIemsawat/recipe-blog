@@ -102,11 +102,15 @@ app.post("/api/logout", (req, res) => {
 app.post("/api/create-post", uploadMidWare.single("file"), async (req, res) => {
     // console.log(req.file);
     const { originalname, path } = req.file;
+    if (!originalname) {
+        res.status(404).json({ message: "proper image file is required" });
+    }
     const fileParts = originalname.split(".");
     const extension = fileParts[fileParts.length - 1];
     const newPath = `${path}.${extension}`;
     fs.renameSync(path, newPath);
 
+    console.log(newPath);
     if (req.file.mimetype.split("/")[0] === "image") {
         // get author data from userModel
         const { token } = req.cookies;
@@ -135,34 +139,40 @@ app.post("/api/create-post", uploadMidWare.single("file"), async (req, res) => {
 // ! UPDATE POST
 app.put("/api/post", uploadMidWare.single("file"), async (req, res) => {
     let newPath = null;
-    if (req.file) {
-        const { originalname, path } = req.file;
-        const fileParts = originalname.split(".");
-        const extension = fileParts[fileParts.length - 1];
-        newPath = `${path}.${extension}`;
-        fs.renameSync(path, newPath);
-    }
 
-    const { token } = req.cookies;
-    jwt.verify(token, jwtSecret, {}, async (err, info) => {
-        if (err) throw err;
-        const { id, title, summary, content } = req.body;
-        const postDoc = await PostModel.findById(id);
-        // const isAuthor = postDoc.author === info.id; // < this will not be equal due to that author type is objectId
-        const isAuthor =
-            JSON.stringify(postDoc.author) === JSON.stringify(info.id); // < with this, the result will be true
-        if (!isAuthor) {
-            return res.status(400).json("Not the author");
-        } else {
-            await postDoc.updateOne({
-                title,
-                summary,
-                content,
-                cover: newPath ? newPath : postDoc.cover,
-            });
-            res.json(postDoc);
-        }
-    });
+    const { originalname, path } = req.file;
+    if (!originalname) {
+        res.status(404).json({ message: "proper image file is required" });
+    }
+    const fileParts = originalname.split(".");
+    const extension = fileParts[fileParts.length - 1];
+    newPath = `${path}.${extension}`;
+    fs.renameSync(path, newPath);
+
+    if (req.file.mimetype.split("/")[0] === "image") {
+        const { token } = req.cookies;
+        jwt.verify(token, jwtSecret, {}, async (err, info) => {
+            if (err) throw err;
+            const { id, title, summary, content } = req.body;
+            const postDoc = await PostModel.findById(id);
+            // const isAuthor = postDoc.author === info.id; // < this will not be equal due to that author type is objectId
+            const isAuthor =
+                JSON.stringify(postDoc.author) === JSON.stringify(info.id); // < with this, the result will be true
+            if (!isAuthor) {
+                return res.status(400).json("Not the author");
+            } else {
+                await postDoc.updateOne({
+                    title,
+                    summary,
+                    content,
+                    cover: newPath ? newPath : postDoc.cover,
+                });
+                res.json(postDoc);
+            }
+        });
+    } else {
+        res.status(400).json({ message: "File type not compatible" });
+    }
 });
 
 // ! GET ALL POSTs

@@ -20,7 +20,7 @@ const CreatePostPage = () => {
         data.set("content", content);
         data.set("file", files[0]); // ! "file" needs to be the same name as in backend
 
-        if (title && summary) {
+        if (title && summary && files) {
             // Validate ig=f title or summary is filled
             const response = await fetch(
                 "http://localhost:8000/api/create-post",
@@ -41,6 +41,9 @@ const CreatePostPage = () => {
             }
             if (!summary) {
                 alert("summary can not be empty");
+            }
+            if (!files) {
+                alert("proper image file is needed");
             }
         }
     };

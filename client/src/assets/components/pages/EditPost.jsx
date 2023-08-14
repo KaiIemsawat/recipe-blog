@@ -32,7 +32,7 @@ const EditPost = () => {
             data.set("file", files[0]); // ! "file" needs to be the same name as in backend
         }
 
-        if (title && summary) {
+        if (title && summary && files) {
             // Validate ig=f title or summary is filled
             const response = await fetch("http://localhost:8000/api/post", {
                 method: "PUT",
@@ -41,6 +41,8 @@ const EditPost = () => {
             });
             if (response.ok) {
                 nav(`/post/${id}`);
+            } else {
+                alert("please ensure if it is an image type file");
             }
         } else {
             if (!title) {
@@ -48,6 +50,9 @@ const EditPost = () => {
             }
             if (!summary) {
                 alert("summary can not be empty");
+            }
+            if (!files) {
+                alert("proper image file is needed");
             }
         }
     };
