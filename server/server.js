@@ -100,8 +100,8 @@ app.post("/api/logout", (req, res) => {
 // ! CREATE NEW POST
 // ! <--- "file" in next line needs to be samne as in CreatePostPage.jsx --->  data.set("file", files[0]);
 app.post("/api/create-post", uploadMidWare.single("file"), async (req, res) => {
-    // console.log(req.file);
     const { originalname, path } = req.file;
+    // check if a file is attached
     if (!originalname) {
         res.status(404).json({ message: "proper image file is required" });
     }
@@ -110,8 +110,8 @@ app.post("/api/create-post", uploadMidWare.single("file"), async (req, res) => {
     const newPath = `${path}.${extension}`;
     fs.renameSync(path, newPath);
 
-    console.log(newPath);
     if (req.file.mimetype.split("/")[0] === "image") {
+        // validate if the uploaded file is image
         // get author data from userModel
         const { token } = req.cookies;
         jwt.verify(token, jwtSecret, {}, async (err, info) => {
@@ -139,8 +139,8 @@ app.post("/api/create-post", uploadMidWare.single("file"), async (req, res) => {
 // ! UPDATE POST
 app.put("/api/post", uploadMidWare.single("file"), async (req, res) => {
     let newPath = null;
-
     const { originalname, path } = req.file;
+    // check if a file is attached
     if (!originalname) {
         res.status(404).json({ message: "proper image file is required" });
     }
@@ -150,6 +150,7 @@ app.put("/api/post", uploadMidWare.single("file"), async (req, res) => {
     fs.renameSync(path, newPath);
 
     if (req.file.mimetype.split("/")[0] === "image") {
+        // validate if the uploaded file is image
         const { token } = req.cookies;
         jwt.verify(token, jwtSecret, {}, async (err, info) => {
             if (err) throw err;
