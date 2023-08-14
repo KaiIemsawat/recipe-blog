@@ -59,19 +59,13 @@ app.post("/api/login", async (req, res) => {
         } else {
             const isPassOK = bcrypt.compareSync(password, userDoc.password);
             if (isPassOK) {
-                jwt.sign(
-                    { email, id: userDoc._id },
-                    jwtSecret,
-                    {},
-                    (err, token) => {
-                        if (err) throw err;
-
-                        res.cookie("token", token).json({
-                            id: userDoc._id,
-                            email,
-                        });
-                    }
-                );
+                jwt.sign({ email, id: userDoc._id }, jwtSecret, {}, (err, token) => {
+                    if (err) throw err;
+                    res.cookie("token", token).json({
+                        id: userDoc._id,
+                        email,
+                    });
+                });
             } else {
                 res.status(400).json("Invalid credential");
             }
@@ -100,6 +94,7 @@ app.post("/api/logout", (req, res) => {
 // ! CREATE NEW POST
 // ! <--- "file" in next line needs to be samne as in CreatePostPage.jsx --->  data.set("file", files[0]);
 app.post("/api/create-post", uploadMidWare.single("file"), async (req, res) => {
+    // handle file name/path
     const { originalname, path } = req.file;
     // check if a file is attached
     if (!originalname) {
@@ -138,6 +133,7 @@ app.post("/api/create-post", uploadMidWare.single("file"), async (req, res) => {
 
 // ! UPDATE POST
 app.put("/api/post", uploadMidWare.single("file"), async (req, res) => {
+    // handle file name/path
     let newPath = null;
     const { originalname, path } = req.file;
     // check if a file is attached
