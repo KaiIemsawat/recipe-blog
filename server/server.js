@@ -110,15 +110,21 @@ app.post("/api/create-post", uploadMidWare.single("file"), async (req, res) => {
     const { token } = req.cookies;
     jwt.verify(token, jwtSecret, {}, async (err, info) => {
         if (err) throw err;
-        const { title, summary, content } = req.body;
-        const postDoc = await PostModel.create({
-            title,
-            summary,
-            content,
-            cover: newPath,
-            author: info.id,
-        });
-        res.json(postDoc);
+        try {
+            const { title, summary, content } = req.body;
+            const postDoc = await PostModel.create({
+                title,
+                summary,
+                content,
+                cover: newPath,
+                author: info.id,
+            });
+
+            res.json(postDoc);
+        } catch (error) {
+            console.log(error);
+            res.status(400).json(error);
+        }
     });
 });
 

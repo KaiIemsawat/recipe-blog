@@ -26,24 +26,26 @@ const Header = () => {
     const email = userInfo?.email;
 
     return (
-        <header>
-            <Link to="/" className="logo">
-                RecipeRoom
-            </Link>
-            <nav>
-                {email ? (
-                    <>
-                        <Link to={"/create"}>Create New Post</Link>
-                        <a onClick={logoutHandler}>Logout</a>
-                    </>
-                ) : (
-                    <>
-                        <Link to="/login">Login</Link>
-                        <Link to="register">Register</Link>
-                    </>
-                )}
-            </nav>
-        </header>
+        <div>
+            <header className="flex justify-between">
+                <Link to="/" className="logo">
+                    RecipeRoom
+                </Link>
+                <nav>
+                    {email ? (
+                        <>
+                            <Link to={"/create"}>Create New Post</Link>
+                            <a onClick={logoutHandler}>Logout</a>
+                        </>
+                    ) : (
+                        <>
+                            <Link to="/login">Login</Link>
+                            <Link to="register">Register</Link>
+                        </>
+                    )}
+                </nav>
+            </header>
+        </div>
     );
 };
 

@@ -13,21 +13,33 @@ const CreatePostPage = () => {
     const nav = useNavigate();
 
     const cretePostHandler = async (e) => {
+        e.preventDefault();
         const data = new FormData();
         data.set("title", title);
         data.set("summary", summary);
         data.set("content", content);
         data.set("file", files[0]); // ! "file" needs to be the same name as in backend
-        e.preventDefault();
 
-        const response = await fetch("http://localhost:8000/api/create-post", {
-            method: "POST",
-            body: data,
-            credentials: "include",
-        });
-
-        if (response.ok) {
-            nav("/");
+        if (title && summary) {
+            // Validate ig=f title or summary is filled
+            const response = await fetch(
+                "http://localhost:8000/api/create-post",
+                {
+                    method: "POST",
+                    body: data,
+                    credentials: "include",
+                }
+            );
+            if (response.ok) {
+                nav("/");
+            }
+        } else {
+            if (!title) {
+                alert("title can not be empty");
+            }
+            if (!summary) {
+                alert("summary can not be empty");
+            }
         }
     };
 

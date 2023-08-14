@@ -31,13 +31,24 @@ const EditPost = () => {
         if (files?.[0]) {
             data.set("file", files[0]); // ! "file" needs to be the same name as in backend
         }
-        const response = await fetch("http://localhost:8000/api/post", {
-            method: "PUT",
-            body: data,
-            credentials: "include",
-        });
-        if (response.ok) {
-            nav(`/post/${id}`);
+
+        if (title && summary) {
+            // Validate ig=f title or summary is filled
+            const response = await fetch("http://localhost:8000/api/post", {
+                method: "PUT",
+                body: data,
+                credentials: "include",
+            });
+            if (response.ok) {
+                nav(`/post/${id}`);
+            }
+        } else {
+            if (!title) {
+                alert("title can not be empty");
+            }
+            if (!summary) {
+                alert("summary can not be empty");
+            }
         }
     };
 
