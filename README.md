@@ -4,69 +4,47 @@
 
 ## Links
 
--   [Repo](https://github.com/Rohit19060/<project-name> "<project-name> Repo")
-
--   [Live](<Homepage url> "Live View")
-
--   [Bugs](https://github.com/Rohit19060/<project-name>/issues "Issues Page")
-
--   [API](<API Link> "API")
+-   [Repository](https://github.com/KaiIemsawat/recipe-blog "RecipeRoom")
 
 ## Screenshots
 
-![Home Page](/screenshots/1.png "Home Page")
-
-![](/screenshots/2.png)
-
-![](/screenshots/3.png)
+![screenshot](/server/uploads/screenshotForReadme.png "screenshot")
 
 ## Available Commands
 
 In the project directory, you can run:
 
-### `npm start" : "react-scripts start"`,
+### `npm start",
 
-The app is built using `create-react-app` so this command Runs the app in Development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser. You also need to run the server file as well to completely run the app. The page will reload if you make edits.
-You will also see any lint errors in the console.
+The app is built using `vite` so this command Runs the app in Development mode. Open [http://localhost:5173](http://localhost:5173) to view it in the browser. You also need to run the server file using the same command, `npm start`, as well to completely run the app. This would launch `nodemon` and allow files on server side each time you update files. You will also see any lint errors in the console.
 
 ### `"npm run build": "react-scripts build"`,
 
 Builds the app for production to the `build` folder. It correctly bundles React in production mode and optimizes the build for the best performance. The build is minified and the filenames include the hashes. Your app will be ready to deploy!
-
-### `"npm run test": "react-scripts test"`,
-
-Launches the test runner in the interactive watch mode.
-
-### `"npm run dev": "concurrently "nodemon server" "npm run start"`,
-
-For running the server and app together I am using concurrently this helps a lot in the MERN application as it runs both the server (client and server) concurrently. So you can work on them both together.
-
-### `"serve": "node server"`
-
-For running the server file on you can use this command.
-
-### `npm run serve`
 
 ## Built With
 
 -   JavaScript
 -   Node
 -   NPM
--   Webpack
+-   React
+-   Express
+-   MongoDB
 -   HTML
 -   CSS
 
 ## Future Updates
 
 -   [ ] Reliable Storage
+-   [ ] Upload multiple images
 
 ## Author
 
-**Rohit Jain**
+**Kai Iemsawat**
 
--   [Profile](https://github.com/rohit19060 "Rohit jain")
--   [Email](mailto:rohitjain19060@gmail.com?subject=Hi "Hi!")
--   [Website](https://kingtechnologies.in "Welcome")
+-   [Profile](https://kai-portfolio.tech/ "kai iemsawat")
+-   [githab](https://github.com/KaiIemsawat "github")
+-   [Email](kaiiemsawat@gmail.com "mail me")
 
 ## 🤝 Support
 
