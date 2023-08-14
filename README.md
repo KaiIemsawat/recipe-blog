@@ -43,8 +43,8 @@ Builds the app for production to the `build` folder. It correctly bundles React 
 **Kai Iemsawat**
 
 -   [Profile](https://kai-portfolio.tech/ "kai iemsawat")
--   [githab](https://github.com/KaiIemsawat "github")
--   [Email](kaiiemsawat@gmail.com "mail me")
+-   [Github](https://github.com/KaiIemsawat "github")
+-   [Email](mailto:kaiiemsawat@gmail.com "mail me")
 
 ## 🤝 Support
 
